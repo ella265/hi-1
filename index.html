@@ -38,6 +38,19 @@
     pointer-events: none;
     text-align: center;
   }
+  .brennan-text {
+    position: fixed;
+    pointer-events: none;
+    font-size: 24px; /* smaller than main text */
+    color: #4B4B4B;
+    user-select: none;
+    transform-origin: center center;
+    animation: spin 8s linear infinite;
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 </style>
 </head>
 <body>
@@ -48,6 +61,7 @@
 (function(){
   const body = document.body;
 
+  // Function to spawn images
   function makeImage(x, y) {
     const el = document.createElement("img");
     el.className = "image";
@@ -76,16 +90,50 @@
     }
   }
 
+  // Function to spawn spinning "brennan" words
+  function makeBrennan(x, y) {
+    const el = document.createElement("div");
+    el.className = "brennan-text";
+    el.textContent = "brennan";
+
+    const offsetX = Math.random()*50 - 25;
+    const offsetY = Math.random()*50 - 25;
+
+    el.style.left = (x + offsetX) + "px";
+    el.style.top = (y + offsetY) + "px";
+
+    // random slow rotation duration (6-12s)
+    el.style.animationDuration = (6 + Math.random()*6) + "s";
+
+    body.appendChild(el);
+
+    // Remove after 15 seconds
+    setTimeout(() => el.remove(), 15000);
+  }
+
+  function spawnBrennan(count) {
+    for (let i = 0; i < count; i++) {
+      const x = Math.random()*window.innerWidth;
+      const y = Math.random()*window.innerHeight;
+      makeBrennan(x, y);
+    }
+  }
+
   // Spawn a lot of images immediately
-  spawnImages(80);
+  spawnImages(50);
+  spawnBrennan(30); // spawn initial "brennan" words
 
-  // Keep spawning more frequently for more coverage
+  // Keep spawning images and words
   setInterval(() => spawnImages(15), 300);
+  setInterval(() => spawnBrennan(10), 1000);
 
-  // Spawn more images when the user clicks
+  // Spawn more on click
   window.addEventListener("pointerdown", e => {
     for(let i=0;i<25;i++) {
       makeImage(e.clientX + (Math.random()*200-100), e.clientY + (Math.random()*200-100));
+    }
+    for(let i=0;i<15;i++) {
+      makeBrennan(e.clientX + (Math.random()*200-100), e.clientY + (Math.random()*200-100));
     }
   });
 })();
