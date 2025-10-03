@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HAPPY BOYFRIEND DAY</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
+
+<style>
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: #ffffff;
+    overflow: hidden;
+    font-family: 'Architects Daughter', cursive;
+  }
+  .image {
+    position: fixed;
+    pointer-events: none;
+    width: 80px; /* adjust size of images */
+    animation: floatUp 3s forwards linear;
+    user-select: none;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-150px) rotate(360deg); opacity: 0; }
+  }
+  .center-text {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 72px; /* big letters */
+    color: black;
+    z-index: 1000;
+    pointer-events: none;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="center-text">HAPPY BOYFRIEND DAY</div>
+
+<script>
+(function(){
+  const body = document.body;
+
+  function makeImage(x, y) {
+    const el = document.createElement("img");
+    el.className = "image";
+    el.src = "brennan1.png"; // make sure this file is in the same folder
+
+    const size = 60 + Math.random()*40; // 60-100px
+    el.style.width = size + "px";
+
+    const offsetX = -size/2 + (Math.random()*50 -25);
+    const offsetY = -size/2 + (Math.random()*50 -25);
+
+    el.style.left = (x + offsetX) + "px";
+    el.style.top = (y + offsetY) + "px";
+
+    el.style.transform = `translateY(0) rotate(${Math.random()*360}deg)`;
+
+    body.appendChild(el);
+    el.addEventListener("animationend", () => el.remove());
+  }
+
+  function spawnImages(count) {
+    for (let i = 0; i < count; i++) {
+      const x = Math.random()*window.innerWidth;
+      const y = Math.random()*window.innerHeight;
+      makeImage(x, y);
+    }
+  }
+
+  // Spawn a medium amount of images immediately
+  spawnImages(30);
+
+  // Keep spawning a few images every half second
+  setInterval(() => spawnImages(5), 500);
+
+  // Spawn more images when the user clicks
+  window.addEventListener("pointerdown", e => {
+    for(let i=0;i<10;i++) {
+      makeImage(e.clientX + (Math.random()*200-100), e.clientY + (Math.random()*200-100));
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
