@@ -19,7 +19,7 @@
   .image {
     position: fixed;
     pointer-events: none;
-    width: 80px; /* adjust size of images */
+    width: 80px;
     animation: floatUp 3s forwards linear;
     user-select: none;
   }
@@ -32,7 +32,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 72px; /* big letters */
+    font-size: 72px;
     color: black;
     z-index: 1000;
     pointer-events: none;
@@ -51,7 +51,7 @@
   function makeImage(x, y) {
     const el = document.createElement("img");
     el.className = "image";
-    el.src = "brennan1.png"; // make sure this file is in the same folder
+    el.src = "brennan1.png";
 
     const size = 60 + Math.random()*40; // 60-100px
     el.style.width = size + "px";
@@ -76,15 +76,15 @@
     }
   }
 
-  // Spawn a medium amount of images immediately
-  spawnImages(30);
+  // Spawn a lot of images immediately
+  spawnImages(80);
 
-  // Keep spawning a few images every half second
-  setInterval(() => spawnImages(5), 500);
+  // Keep spawning more frequently for more coverage
+  setInterval(() => spawnImages(15), 300);
 
   // Spawn more images when the user clicks
   window.addEventListener("pointerdown", e => {
-    for(let i=0;i<10;i++) {
+    for(let i=0;i<25;i++) {
       makeImage(e.clientX + (Math.random()*200-100), e.clientY + (Math.random()*200-100));
     }
   });
